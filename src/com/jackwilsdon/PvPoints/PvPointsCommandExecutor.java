@@ -44,7 +44,7 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		{
 		case "syntax":
 			reciever.sendMessage(prefix+ChatColor.YELLOW+"Invalid syntax!");
-			reciever.sendMessage(prefix+ChatColor.YELLOW+"Valid commands are "+ChatColor.GREEN+"reset");
+			reciever.sendMessage(prefix+ChatColor.YELLOW+"Valid commands are "+ChatColor.GREEN+"reset"+ChatColor.YELLOW+", "+ChatColor.GREEN+"add"+ChatColor.YELLOW+", "+ChatColor.GREEN+"help");
 			reciever.sendMessage(prefix+ChatColor.YELLOW+"Optional arguments are denoted as "+ChatColor.GREEN+"[option]");
 			break;
 		case "reset-syntax":
@@ -55,8 +55,16 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		case "reset-sender":
 			reciever.sendMessage(prefix+ChatColor.GREEN+"reset"+ChatColor.RED+" without parameters can only be run by a player!");
 			break;
+		case "add-syntax":
+			reciever.sendMessage(prefix+ChatColor.YELLOW+"Invalid syntax for "+ChatColor.GREEN+"add"+ChatColor.YELLOW+"!");
+			reciever.sendMessage(prefix+ChatColor.YELLOW+"Valid syntax: /pvpoints add <username>");
+			break;
+		case "existng-player":
+			reciever.sendMessage(prefix+ChatColor.RED+"That player already exists!");
+			break;
 		case "missing-player":
 			reciever.sendMessage(prefix+ChatColor.RED+"That is not a valid player!");
+			break;
 		default:
 			reciever.sendMessage(prefix+ChatColor.RED+"Something went wrong!");
 			break;
@@ -104,23 +112,75 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 				if (!(cmdSender instanceof Player))
 				{
 					issue("reset-sender", cmdSender);
-					return true;
+					break;
 				}
 				PvPointsPlayerManager.reset(cmdSender.getName());
-				cmdSender.sendMessage(prefix+ChatColor.YELLOW+"Your kills/deaths have been reset!");
+				cmdSender.sendMessage(prefix+ChatColor.YELLOW+"Your kills/deaths/points have been reset!");
 			} else if (arguments.length == 1) {
 				if (!PvPointsPlayerManager.playerExists(arguments[0]))
 				{
 					issue("missing-player", cmdSender);
-					return true;
+					break;
 				}
 				PvPointsPlayerManager.reset(arguments[0]);
 				cmdSender.sendMessage(prefix+ChatColor.YELLOW+"The player "+ChatColor.GREEN+arguments[0]+ChatColor.YELLOW+" has been reset!");
-				plugin.getServer().getPlayer(arguments[0]).sendMessage(prefix+ChatColor.YELLOW+"Your kills/deaths have been reset!");
+				plugin.getServer().getPlayer(arguments[0]).sendMessage(prefix+ChatColor.YELLOW+"Your kills/deaths/points have been reset!");
 			} else {
 				issue("reset-syntax", cmdSender);
-				return true;
+				break;
 			}
+			break;
+		
+		/*
+		 * Add player command
+		 */
+		case "add":
+			if (arguments.length == 0)
+			{
+				issue("add-syntax", cmdSender);
+				break;
+			}
+			if (PvPointsPlayerManager.playerExists(arguments[0]))
+			{
+				issue("existing-player", cmdSender);
+				break;
+			}
+			PvPointsPlayerManager.reset(arguments[0]);
+			cmdSender.sendMessage(prefix+ChatColor.YELLOW+"The player '"+arguments[0]+"' was added.");
+			break;
+			
+		/*
+		 * Help command
+		 */
+		case "help":
+			if (arguments.length != 1)
+			{
+				cmdSender.sendMessage(ChatColor.GREEN+"reset [username]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Resets a player's kills, deaths and points");
+				cmdSender.sendMessage(ChatColor.GREEN+"add [username]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Add a player to PvPoints");
+				cmdSender.sendMessage(ChatColor.GREEN+"help [command]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Displays help for a certain command, or for all commands");
+				break;
+			} else {
+				switch (arguments[0])
+				{
+				case "reset":
+					cmdSender.sendMessage(ChatColor.GREEN+"reset [username]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Using "+ChatColor.GREEN+"reset"+ChatColor.WHITE+" without any parameters will reset your own statistics.");
+					cmdSender.sendMessage(ChatColor.WHITE+"Using "+ChatColor.GREEN+"reset"+ChatColor.WHITE+" with a username will reset the supplied user to default, as long as they are in the PvPoints system");
+					cmdSender.sendMessage(ChatColor.RED+"Using reset will clear statistics and scores WITHOUT WARNING!");
+					break;
+				case "add":
+					cmdSender.sendMessage(ChatColor.GREEN+"add [username]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Add a user to the PvPoints configuration.");
+					cmdSender.sendMessage(ChatColor.WHITE+"This should not normally need to be used, as players are added to the configuration on join.");
+					break;
+				case "help":
+					cmdSender.sendMessage(ChatColor.GREEN+"help [command]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"If [command] is not passed, generalised help will be shown for all commands");
+					cmdSender.sendMessage(ChatColor.WHITE+"If [command] is passed, help for the specified command will be shown");
+					break;
+				default:
+					cmdSender.sendMessage(prefix+ChatColor.WHITE+"Not a valid command! To view all commands, use "+ChatColor.GREEN+"pvpoints help");
+					break;
+				}
+			}
+			cmdSender.sendMessage(ChatColor.YELLOW+"Optional arguments are denoted as "+ChatColor.GREEN+"[option]");
 			break;
 			
 		/*

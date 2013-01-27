@@ -3,6 +3,7 @@ package com.jackwilsdon.PvPoints;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 /*
  * PvPointsEventListener
@@ -70,6 +71,16 @@ public class PvPointsEventListener implements Listener {
 			 */
 			pJoin.setJoinMessage(customMessage);
 		}
+	}
+	
+	/*
+	 * onLeave()
+	 * Called when a player quits
+	 */
+	@EventHandler
+	public void onLeave(PlayerQuitEvent pLeave)
+	{
+		
 	}
 	
 }
