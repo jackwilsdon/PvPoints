@@ -14,11 +14,9 @@ Configurable Options
    - Join messages
    - Leave messages
    - Kill messages
- - **Number of points rewarded** - Different amounts of points rewarded for different weapons used
-   - Sword
-   - Bow
-   - Hands
-   - Other
+ - **Points taken/given**
+   - Add points on kill
+   - Subtract points on death
  - **Metrics** - Whether to send anonymous usage statistics to MCStats.org
  
 Changelog
