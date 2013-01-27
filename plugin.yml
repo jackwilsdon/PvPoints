@@ -1,0 +1,12 @@
+name: "PvPoints"
+main: "com.jackwilsdon.PvPoints.PvPointsPlugin"
+version: "1.2"
+description: "Track yo' kills!"
+author: "Jack Wilsdon (jackwilsdon)"
+website: "http://jackwilsdon.tk"
+
+commands:
+    pvpoints:
+        description: Multi-use PvPoints comman d
+        usage: /pvpoints help
+        aliases: ["pv"]

@@ -1,0 +1,24 @@
+# PvPoints Configuration
+PvPoints:
+  chat-messages:
+    kill:
+      enabled: true
+      message: '%YELLOW%%VICTIM%%VICTIMPOINTS% was killed by %KILLER%%KILLERPOINTS%'
+    join:
+      enabled: true
+      message: '%YELLOW%%PLAYER%%PLAYERPOINTS% joined!'
+    leave:
+      enabled: true
+      message: '%YELLOW%%PLAYER%%WHITE%(%GREEN%%PLAYERPOINTS%%WHITE%)%YELLOW% left!'
+  starting-points: 1000
+  add-on-kill:
+    enabled: true
+    amount: 1
+  subtract-on-death:
+    enabled: true
+    amount: 1
+  config-version: 1.2
+Players:
+  jackwilsdon:
+    kills: 2
+    deaths: 8
