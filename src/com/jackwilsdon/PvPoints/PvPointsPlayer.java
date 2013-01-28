@@ -43,6 +43,17 @@ public class PvPointsPlayer {
 	 * PvPlayer()
 	 * Constructor
 	 */
+	PvPointsPlayer(int kills, int deaths, int points, String username)
+	{
+		this(kills, deaths);
+		this.points = points;
+		this.username = username;
+	}
+	
+	/*
+	 * PvPlayer()
+	 * Constructor
+	 */
 	PvPointsPlayer(int kills, int deaths, String username)
 	{
 		this(kills, deaths);
@@ -55,6 +66,6 @@ public class PvPointsPlayer {
 	 */
 	public String toString()
 	{
-		return "PvPlayer: Kills:"+this.kills+" Deaths:"+this.deaths;
+		return "PvPlayer: Kills:"+this.kills+" Deaths:"+this.deaths+" Points:"+this.points;
 	}
 }
