@@ -48,6 +48,11 @@ public class PvPointsPlugin extends JavaPlugin {
 		}
 		
 		/*
+		 * Send the player points to the server
+		 */
+		PvPointsSubmitter.submitAll(this);
+		
+		/*
 		 * Register event listener
 		 */
 		getServer().getPluginManager().registerEvents(new PvPointsEventListener(this), this);
