@@ -1,5 +1,15 @@
 package com.jackwilsdon.PvPoints;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.bukkit.configuration.MemorySection;
+
 /*
  * PvPointsPlayerManager
  * Player manager for PvPoints
@@ -138,6 +148,11 @@ public class PvPointsPlayerManager {
 		 * Add kill point
 		 */
 		addKillPoint(username);
+		
+		/*
+		 * Save configuration
+		 */
+		plugin.saveConfig();
 	}
 	
 	/*
@@ -165,6 +180,11 @@ public class PvPointsPlayerManager {
 		 * Add death point
 		 */
 		addDeathPoint(username);
+		
+		/*
+		 * Save configuration
+		 */
+		plugin.saveConfig();
 	}
 	
 	/*
@@ -242,5 +262,74 @@ public class PvPointsPlayerManager {
 		 */
 		int points = plugin.getConfig().getInt("PvPoints.starting-points");
 		plugin.getConfig().set("Players."+username+".points", points);
+	}
+	
+	/*
+	 * getAllPlayers()
+	 * Return a list of all PvPointsPlayers
+	 */
+	public static Map<String, PvPointsPlayer> getAllPlayers()
+	{
+		/*
+		 * Create the list of players
+		 */
+		Map<String, PvPointsPlayer> playerList = new HashMap<String, PvPointsPlayer>();
+		
+		/*
+		 * Check there are some players
+		 */
+		if (plugin.getConfig().getConfigurationSection("Players") == null) return null;
+		
+		/*
+		 * Iterate through the players
+		 */
+		Map<String, Object> players = plugin.getConfig().getConfigurationSection("Players").getValues(true);
+		Iterator<Entry<String, Object>> it = players.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Object> pairs = (Map.Entry<String, Object>)it.next();
+			if (!(pairs.getValue() instanceof MemorySection))
+			{
+				String[] key = pairs.getKey().toString().split("\\.");
+				int kills = -1;
+				int deaths = -1;
+				int points = -99999;
+				switch (key[1])
+				{
+				case "kills":
+					kills = Integer.parseInt(pairs.getValue().toString());
+					break;
+				case "deaths":
+					deaths = Integer.parseInt(pairs.getValue().toString());
+					break;
+				case "points":
+					points = Integer.parseInt(pairs.getValue().toString());
+					break;
+				}
+				if (playerList.get(key[0]) == null)
+				{
+					playerList.put(key[0], new PvPointsPlayer(kills, deaths, points));
+				} else {
+					PvPointsPlayer pV = playerList.get(key[0]);
+					if (kills != -1)
+					{
+						pV.kills = kills;
+					}
+					if (deaths != -1)
+					{
+						pV.deaths = deaths;
+					}
+					if (points != -99999);
+					{
+						pV.points = points;
+					}
+				}
+			}
+			it.remove();
+		}
+		
+		/*
+		 * Return the players
+		 */
+		return playerList;
 	}
 }
