@@ -1,5 +1,8 @@
 package com.jackwilsdon.PvPoints;
  
+import java.io.IOException;
+import java.util.logging.Level;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 /*
@@ -33,6 +36,16 @@ public class PvPointsPlugin extends JavaPlugin {
 		 * Configure text manager
 		 */
 		new PvPointsText(this);
+		
+		/*
+		 * Start metrics
+		 */
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+		} catch (IOException e) {
+			getServer().getLogger().log(Level.SEVERE, "Unable to send statistics :(");
+		}
 		
 		/*
 		 * Register event listener
