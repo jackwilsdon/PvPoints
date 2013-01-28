@@ -21,7 +21,3 @@ PvPoints:
     amount: 1
   config-version: 1.2
 Players:
-  jackwilsdon:
-    kills: 2
-    deaths: 8
-    points: 1001
