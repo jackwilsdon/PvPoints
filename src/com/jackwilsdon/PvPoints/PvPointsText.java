@@ -62,7 +62,7 @@ public class PvPointsText {
 		int points = PvPointsPlayerManager.getPoints(username);
 		String increment = "+"+plugin.getConfig().getInt("PvPoints.add-on-kill.amount");
 		if (!plugin.getConfig().getBoolean("PvPoints.add-on-kill.enabled")) increment = "";
-		String pointString = "%WHITE%(%GREEN%"+points+increment+"%WHITE%)%YELLOW%";
+		String pointString = "%WHITE%(%GREEN%"+points+increment+"%WHITE%)";
 		return parse(pointString);
 	}
 	
@@ -75,7 +75,7 @@ public class PvPointsText {
 		int points = PvPointsPlayerManager.getPoints(username);
 		String increment = "-"+plugin.getConfig().getInt("PvPoints.subtract-on-death.amount");
 		if (!plugin.getConfig().getBoolean("PvPoints.subtract-on-death.enabled")) increment = "";
-		String pointString = "%WHITE%(%RED%"+points+increment+"%WHITE%)%YELLOW%";
+		String pointString = "%WHITE%(%RED%"+points+increment+"%WHITE%)";
 		return parse(pointString);
 	}
 	
@@ -86,7 +86,7 @@ public class PvPointsText {
 	public static String normalPoints(String username)
 	{
 		int points = PvPointsPlayerManager.getPoints(username);
-		String pointString = "%WHITE%(%GREEN%"+points+"%WHITE%)%YELLOW%";
+		String pointString = "%WHITE%(%GREEN%"+points+"%WHITE%)";
 		return parse(pointString);
 	}
 }

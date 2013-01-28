@@ -2,6 +2,7 @@ package com.jackwilsdon.PvPoints;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -80,7 +81,120 @@ public class PvPointsEventListener implements Listener {
 	@EventHandler
 	public void onLeave(PlayerQuitEvent pLeave)
 	{
+		/*
+		 * Set leave details
+		 */
+		String username = pLeave.getPlayer().getName();
 		
+		/*
+		 * Leave message
+		 */
+		boolean customMessageEnabled = plugin.getConfig().getBoolean("PvPoints.chat-messages.leave.enabled");
+		if (customMessageEnabled)
+		{
+			/*
+			 * Get custom message
+			 */
+			String customMessage = plugin.getConfig().getString("PvPoints.chat-messages.leave.message");
+			
+			/*
+			 * Parse messages
+			 */
+			customMessage = PvPointsText.parse(customMessage);
+			customMessage = customMessage.replaceAll("%PLAYER%", username);
+			customMessage = customMessage.replaceAll("%PLAYERPOINTS%", PvPointsText.normalPoints(username));
+			
+			/*
+			 * Set message
+			 */
+			pLeave.setQuitMessage(customMessage);
+		}
+	}
+	
+	/*
+	 * onDeath()
+	 * Called on player death
+	 */
+	@EventHandler
+	public void onDeath(PlayerDeathEvent pDeath)
+	{
+		/*
+		 * Check if the player was killed by another player, or via other means
+		 */
+		if (pDeath.getEntity().getKiller() != null)
+		{
+			/*
+			 * Get player and killer names
+			 */
+			String victim = pDeath.getEntity().getName();
+			String killer = pDeath.getEntity().getKiller().getName();
+			
+			/*
+			 * Death message
+			 */
+			boolean customMessageEnabled = plugin.getConfig().getBoolean("PvPoints.chat-messages.kill.enabled");
+			if (customMessageEnabled)
+			{
+				/*
+				 * Get custom message
+				 */
+				String customMessage = plugin.getConfig().getString("PvPoints.chat-messages.kill.message");
+				
+				/*
+				 * Parse messages
+				 */
+				customMessage = PvPointsText.parse(customMessage);
+				customMessage = customMessage.replaceAll("%VICTIM%", victim);
+				customMessage = customMessage.replaceAll("%VICTIMPOINTS%", PvPointsText.deathPoints(victim));
+				
+				customMessage = customMessage.replaceAll("%KILLER%", killer);
+				customMessage = customMessage.replaceAll("%KILLERPOINTS%", PvPointsText.killPoints(killer));
+				
+				/*
+				 * Set message
+				 */
+				pDeath.setDeathMessage(customMessage);
+			}
+			
+			/*
+			 * Add deaths and kills
+			 */
+			PvPointsPlayerManager.addDeath(victim);
+			PvPointsPlayerManager.addKill(killer);
+		} else {
+			/*
+			 * The player was killed by some other means
+			 * Display current points
+			 */
+			
+			/*
+			 * Get player name and message
+			 */
+			String victim = pDeath.getEntity().getName();
+			String message = pDeath.getDeathMessage();
+			
+			/*
+			 * Edit message
+			 */
+			boolean showPoints = plugin.getConfig().getBoolean("PvPoints.chat-messages.death.display-points");
+			if (showPoints)
+			{
+				/*
+				 * Parse message
+				 */
+				message = message.replaceAll(victim, victim+PvPointsText.deathPoints(victim));
+				
+				/*
+				 * Set message
+				 */
+				pDeath.setDeathMessage(message);
+			}
+			
+			/*
+			 * Add death
+			 */
+			PvPointsPlayerManager.addDeath(victim);
+		}
 	}
 	
 }

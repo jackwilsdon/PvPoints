@@ -83,7 +83,30 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		 */
 		if (arguments.length == 0)
 		{
-			issue("syntax", cmdSender);
+			/*
+			 * If the sender isn't a player, display command help
+			 */
+			if (!(cmdSender instanceof Player))
+			{
+				issue("syntax", cmdSender);
+				return true;
+			}
+			
+			/*
+			 * Retrieve information
+			 */
+			int points = PvPointsPlayerManager.getPoints(cmdSender.getName());
+			int kills = PvPointsPlayerManager.getKills(cmdSender.getName());
+			int deaths = PvPointsPlayerManager.getDeaths(cmdSender.getName());
+			
+			/*
+			 * Output statistics
+			 */
+			cmdSender.sendMessage(prefix+ChatColor.YELLOW+"Points: "+ChatColor.WHITE+points);
+			cmdSender.sendMessage(prefix+ChatColor.GREEN+"Kills: "+ChatColor.WHITE+kills);
+			cmdSender.sendMessage(prefix+ChatColor.RED+"Deaths: "+ChatColor.WHITE+deaths);
+			float ratio = (float)kills/(float)deaths;
+			cmdSender.sendMessage(prefix+ChatColor.YELLOW+"Kill/Death ratio: "+ChatColor.WHITE+ratio);
 			return true;
 		}
 		

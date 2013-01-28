@@ -4,6 +4,8 @@ PvPoints:
     kill:
       enabled: true
       message: '%YELLOW%%VICTIM%%VICTIMPOINTS% was killed by %KILLER%%KILLERPOINTS%'
+    death:
+      display-points: true
     join:
       enabled: true
       message: '%YELLOW%%PLAYER%%PLAYERPOINTS% joined!'
