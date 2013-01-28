@@ -59,7 +59,7 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 			reciever.sendMessage(prefix+ChatColor.YELLOW+"Invalid syntax for "+ChatColor.GREEN+"add"+ChatColor.YELLOW+"!");
 			reciever.sendMessage(prefix+ChatColor.YELLOW+"Valid syntax: /pvpoints add <username>");
 			break;
-		case "existng-player":
+		case "existing-player":
 			reciever.sendMessage(prefix+ChatColor.RED+"That player already exists!");
 			break;
 		case "missing-player":
