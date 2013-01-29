@@ -8,7 +8,7 @@ What is PvPoints?
 -----------------
 PvPoints allows you to track your player's kills, and view them on a leaderboard.
 
-[Download PvPoints](https://github.com/jackwilsdon/PvPoints/blob/master/jars/PvPoints.jar "Latest Release")
+[Download PvPoints](https://github.com/jackwilsdon/PvPoints/blob/master/jars/PvPoints.jar?raw=true "Latest Release")
 -----------------
 
 Configurable Options
