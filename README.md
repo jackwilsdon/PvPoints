@@ -21,6 +21,24 @@ Configurable Options
    - Add points on kill
    - Subtract points on death
 
+Commands
+--------
+ - `/pvpoints` - aliased to `/pv`
+   - No parameters - Display your current statistics
+   - `reset [username]` - Resets a player's (or your own) statistics
+   - `add <username>` - Add a player to PvPlayers (should not be used, as players are auto-added on join)
+   - `help [command]` - Shows help for a certain, or all commands.
+   - **Optional parameters are denoted as `[option]`**
+
+Permissions
+-----------
+ - `/pvpoints` - no permission required to view statistics
+ - `/pvpoints reset` - pvpoints.reset.self
+ - `/pvpoints reset username` - pvpoints.reset.other
+ - `/pvpoints add username` - pvpoints.add
+ - `/pvpoints help [command]` - pvpoints.help
+ - `/pvpoints (any invalid option will display help)` - pvpoints.help
+
 Changelog
 ---------
  - **1.0**

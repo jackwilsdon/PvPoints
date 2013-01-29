@@ -65,6 +65,9 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		case "missing-player":
 			reciever.sendMessage(prefix+ChatColor.RED+"That is not a valid player!");
 			break;
+		case "permissions":
+			reciever.sendMessage(prefix+ChatColor.RED+"You don't have permission to do that!");
+			break;
 		default:
 			reciever.sendMessage(prefix+ChatColor.RED+"Something went wrong!");
 			break;
@@ -137,9 +140,19 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 					issue("reset-sender", cmdSender);
 					break;
 				}
+				if (!cmdSender.hasPermission("pvpoints.reset.self") && !cmdSender.isOp())
+				{
+					issue("permissions", cmdSender);
+					break;
+				}
 				PvPointsPlayerManager.reset(cmdSender.getName());
 				cmdSender.sendMessage(prefix+ChatColor.YELLOW+"Your kills/deaths/points have been reset!");
 			} else if (arguments.length == 1) {
+				if (!cmdSender.hasPermission("pvpoints.reset.other") && !cmdSender.isOp())
+				{
+					issue("permissions", cmdSender);
+					break;
+				}
 				if (!PvPointsPlayerManager.playerExists(arguments[0]))
 				{
 					issue("missing-player", cmdSender);
@@ -158,6 +171,11 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		 * Add player command
 		 */
 		case "add":
+			if (!cmdSender.hasPermission("pvpoints.add") && !cmdSender.isOp())
+			{
+				issue("permissions", cmdSender);
+				break;
+			}
 			if (arguments.length == 0)
 			{
 				issue("add-syntax", cmdSender);
@@ -176,10 +194,15 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		 * Help command
 		 */
 		case "help":
+			if (!cmdSender.hasPermission("pvpoints.help") && !cmdSender.isOp())
+			{
+				issue("permissions", cmdSender);
+				break;
+			}
 			if (arguments.length != 1)
 			{
 				cmdSender.sendMessage(ChatColor.GREEN+"reset [username]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Resets a player's kills, deaths and points");
-				cmdSender.sendMessage(ChatColor.GREEN+"add [username]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Add a player to PvPoints");
+				cmdSender.sendMessage(ChatColor.GREEN+"add <username>"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Add a player to PvPoints");
 				cmdSender.sendMessage(ChatColor.GREEN+"help [command]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Displays help for a certain command, or for all commands");
 				break;
 			} else {
@@ -191,7 +214,7 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 					cmdSender.sendMessage(ChatColor.RED+"Using reset will clear statistics and scores WITHOUT WARNING!");
 					break;
 				case "add":
-					cmdSender.sendMessage(ChatColor.GREEN+"add [username]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Add a user to the PvPoints configuration.");
+					cmdSender.sendMessage(ChatColor.GREEN+"add <username>"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Add a user to the PvPoints configuration.");
 					cmdSender.sendMessage(ChatColor.WHITE+"This should not normally need to be used, as players are added to the configuration on join.");
 					break;
 				case "help":
@@ -210,6 +233,11 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		 * Default, unknown command
 		 */
 		default:
+			if (!cmdSender.hasPermission("pvpoints.help") && !cmdSender.isOp())
+			{
+				issue("permissions", cmdSender);
+				break;
+			}
 			issue("syntax", cmdSender);
 			break;
 		}
