@@ -7,6 +7,6 @@ website: "http://jackwilsdon.tk"
 
 commands:
     pvpoints:
-        description: Multi-use PvPoints comman d
+        description: Multi-use PvPoints command
         usage: /pvpoints help
         aliases: ["pv"]
