@@ -49,8 +49,9 @@ public class PvPointsPlugin extends JavaPlugin {
 		
 		/*
 		 * Send the player points to the server
+		 * Disabled in v1.2 - To be released later on
+		 * PvPointsSubmitter.submitAll(this);
 		 */
-		PvPointsSubmitter.submitAll(this);
 		
 		/*
 		 * Register event listener
