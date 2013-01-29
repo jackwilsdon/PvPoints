@@ -38,7 +38,7 @@ public class PvPointsPlayerManager {
 		/*
 		 * Retrieve the player list
 		 */
-		if (plugin.getConfig().getConfigurationSection("Players").getValues(true).size() == 0 || plugin.getConfig().getConfigurationSection("Players."+username).getValues(true).size() == 0)
+		if (plugin.getConfig().get("Players") == null || plugin.getConfig().get("Players."+username) == null)
 		{
 			return new PvPointsPlayer(-1, -1);
 		}
