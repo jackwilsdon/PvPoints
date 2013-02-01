@@ -1,6 +1,6 @@
 name: "PvPoints"
 main: "com.jackwilsdon.PvPoints.PvPointsPlugin"
-version: "1.2"
+version: "1.2.1"
 description: "Track yo' kills!"
 author: "Jack Wilsdon (jackwilsdon)"
 website: "http://jackwilsdon.tk"

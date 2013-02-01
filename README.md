@@ -20,6 +20,7 @@ Configurable Options
  - **Points taken/given**
    - Add points on kill
    - Subtract points on death
+      - Whether or not points should be subtracted on PvP
 
 Commands
 --------
@@ -50,3 +51,5 @@ Changelog
    - Complete re-code from bottom up
    - Add proper commenting to the files
    - Improve features, including commands
+ - **1.2.1** (minor update)
+   - Added configurable `non-pvp` option, allowing the configuration of whether to subtract a point on a non-pvp death

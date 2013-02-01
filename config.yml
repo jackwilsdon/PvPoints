@@ -19,5 +19,5 @@ PvPoints:
   subtract-on-death:
     enabled: true
     amount: 1
-  config-version: 1.2
+    non-pvp: true
 Players:

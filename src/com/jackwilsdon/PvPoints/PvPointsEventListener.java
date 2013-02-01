@@ -176,13 +176,19 @@ public class PvPointsEventListener implements Listener {
 			/*
 			 * Edit message
 			 */
+			boolean add = plugin.getConfig().getBoolean("PvPoints.subtract-on-death.non-pvp");
 			boolean showPoints = plugin.getConfig().getBoolean("PvPoints.chat-messages.death.display-points");
 			if (showPoints)
 			{
 				/*
 				 * Parse message
 				 */
-				message = message.replaceAll(victim, victim+PvPointsText.deathPoints(victim));
+				if (add)
+				{
+					message = message.replaceAll(victim, victim+PvPointsText.deathPoints(victim));
+				} else {
+					message = message.replaceAll(victim, victim+PvPointsText.normalPoints(victim));
+				}
 				
 				/*
 				 * Set message
@@ -193,7 +199,10 @@ public class PvPointsEventListener implements Listener {
 			/*
 			 * Add death
 			 */
-			PvPointsPlayerManager.addDeath(victim);
+			if (add)
+			{
+				PvPointsPlayerManager.addDeath(victim);
+			}
 		}
 	}
 	
