@@ -2,7 +2,7 @@ PvPoints
 ========
 Track yo' player's kills!
 
-**Current Version**: 1.1
+**Current supported MC version**: 1.4.*
 
 What is PvPoints?
 -----------------
