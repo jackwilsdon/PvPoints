@@ -306,6 +306,7 @@ public class PvPointsPlayerManager {
 					playerList.put(key[0], new PvPointsPlayer(kills, deaths, points));
 				} else {
 					PvPointsPlayer pV = playerList.get(key[0]);
+					pV.username = key[0];
 					if (kills != -1)
 					{
 						pV.kills = kills;

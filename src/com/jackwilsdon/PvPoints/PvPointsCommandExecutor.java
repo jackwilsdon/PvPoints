@@ -1,6 +1,11 @@
 package com.jackwilsdon.PvPoints;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,7 +49,11 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		{
 		case "syntax":
 			reciever.sendMessage(prefix+ChatColor.YELLOW+"Invalid syntax!");
-			reciever.sendMessage(prefix+ChatColor.YELLOW+"Valid commands are "+ChatColor.GREEN+"reset"+ChatColor.YELLOW+", "+ChatColor.GREEN+"add"+ChatColor.YELLOW+", "+ChatColor.GREEN+"help");
+			reciever.sendMessage(prefix+ChatColor.YELLOW+"Valid commands are "+
+			ChatColor.GREEN+"reset"+ChatColor.YELLOW+", "+
+			ChatColor.GREEN+"add"+ChatColor.YELLOW+", "+
+			ChatColor.GREEN+"help"+ChatColor.YELLOW+", "+
+			ChatColor.GREEN+"scores");
 			reciever.sendMessage(prefix+ChatColor.YELLOW+"Optional arguments are denoted as "+ChatColor.GREEN+"[option]");
 			break;
 		case "reset-syntax":
@@ -58,6 +67,10 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 		case "add-syntax":
 			reciever.sendMessage(prefix+ChatColor.YELLOW+"Invalid syntax for "+ChatColor.GREEN+"add"+ChatColor.YELLOW+"!");
 			reciever.sendMessage(prefix+ChatColor.YELLOW+"Valid syntax: /pvpoints add <username>");
+			break;
+		case "scores-syntax":
+			reciever.sendMessage(prefix+ChatColor.YELLOW+"Invalid syntax for "+ChatColor.GREEN+"scores"+ChatColor.YELLOW+"!");
+			reciever.sendMessage(prefix+ChatColor.YELLOW+"Valid syntax: /pvpoints scores");
 			break;
 		case "existing-player":
 			reciever.sendMessage(prefix+ChatColor.RED+"That player already exists!");
@@ -204,6 +217,7 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 				cmdSender.sendMessage(ChatColor.GREEN+"reset [username]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Resets a player's kills, deaths and points");
 				cmdSender.sendMessage(ChatColor.GREEN+"add <username>"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Add a player to PvPoints");
 				cmdSender.sendMessage(ChatColor.GREEN+"help [command]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Displays help for a certain command, or for all commands");
+				cmdSender.sendMessage(ChatColor.GREEN+"scores"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Displays server-wide leaderboards");
 				break;
 			} else {
 				switch (arguments[0])
@@ -221,12 +235,40 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 					cmdSender.sendMessage(ChatColor.GREEN+"help [command]"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"If [command] is not passed, generalised help will be shown for all commands");
 					cmdSender.sendMessage(ChatColor.WHITE+"If [command] is passed, help for the specified command will be shown");
 					break;
+				case "scores":
+					cmdSender.sendMessage(ChatColor.GREEN+"scores"+ChatColor.YELLOW+" - "+ChatColor.WHITE+"Displays server-wide leaderboards");
+					break;
 				default:
 					cmdSender.sendMessage(prefix+ChatColor.WHITE+"Not a valid command! To view all commands, use "+ChatColor.GREEN+"pvpoints help");
 					break;
 				}
 			}
 			cmdSender.sendMessage(ChatColor.YELLOW+"Optional arguments are denoted as "+ChatColor.GREEN+"[option]");
+			break;
+		
+		/*
+		 * Scoreboard
+		 */
+		case "scores":
+			if (arguments.length != 0)
+			{
+				issue("scores-syntax", cmdSender);
+				break;
+			}
+			
+			Map<String, PvPointsPlayer> players = PvPointsPlayerManager.getAllPlayers();
+			List<PvPointsPlayer> list = new ArrayList<PvPointsPlayer>(players.values());
+			Collections.sort(list, new PvPointsLeaderboard());
+			
+			list = list.subList(0, 10);
+			
+			cmdSender.sendMessage(prefix+ChatColor.YELLOW+"Leaderboard");
+			for (int cP = 0; cP < list.size(); cP++)
+			{
+				PvPointsPlayer player = list.get(cP);
+				String username = player.username;
+				cmdSender.sendMessage(ChatColor.GREEN+Integer.toString(cP+1)+". "+ChatColor.WHITE+player.points+" "+ChatColor.YELLOW+username);
+			}
 			break;
 			
 		/*

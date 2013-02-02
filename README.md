@@ -29,6 +29,7 @@ Commands
    - `reset [username]` - Resets a player's (or your own) statistics
    - `add <username>` - Add a player to PvPlayers (should not be used, as players are auto-added on join)
    - `help [command]` - Shows help for a certain, or all commands.
+   - `scores` - Display's the current leaderboards (top 10, sorted by points)
    - **Optional parameters are denoted as `[option]`**
 
 Permissions
@@ -53,3 +54,5 @@ Changelog
    - Improve features, including commands
  - **1.2.1** (minor update)
    - Added configurable `non-pvp` option, allowing the configuration of whether to subtract a point on a non-pvp death
+ - **1.3** (semi-major update)
+   - Added leaderboards command, accessible through the use of `/pvpoints scores`
