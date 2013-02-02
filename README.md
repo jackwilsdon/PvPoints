@@ -56,3 +56,6 @@ Changelog
    - Added configurable `non-pvp` option, allowing the configuration of whether to subtract a point on a non-pvp death
  - **1.3** (semi-major update)
    - Added leaderboards command, accessible through the use of `/pvpoints scores`
+ - **1.3.1** (minor update)
+   - Fixed bug with top 10 on leaderboards
+   - Added average points graph to MCStats metrics
