@@ -260,7 +260,10 @@ public class PvPointsCommandExecutor implements CommandExecutor {
 			List<PvPointsPlayer> list = new ArrayList<PvPointsPlayer>(players.values());
 			Collections.sort(list, new PvPointsLeaderboard());
 			
-			list = list.subList(0, 10);
+			if (list.size() >= 10)
+			{
+				list = list.subList(0, 10);
+			}
 			
 			cmdSender.sendMessage(prefix+ChatColor.YELLOW+"Leaderboard");
 			for (int cP = 0; cP < list.size(); cP++)

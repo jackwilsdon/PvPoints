@@ -1,8 +1,13 @@
 package com.jackwilsdon.PvPoints;
  
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.jackwilsdon.PvPoints.Metrics.Graph;
 
 /*
  * PvPointsPlugin
@@ -41,6 +46,29 @@ public class PvPointsPlugin extends JavaPlugin {
 		 */
 		try {
 			Metrics metrics = new Metrics(this);
+			
+			// Construct a graph, which can be immediately used and considered as valid
+		    Graph graph = metrics.createGraph("Average points");
+
+		    // Add the points
+			graph.addPlotter(new Metrics.Plotter("Points") {
+				@SuppressWarnings({ "unchecked", "rawtypes" })
+				@Override
+				public int getValue() {
+					Map<String, PvPointsPlayer> players = PvPointsPlayerManager.getAllPlayers();
+					Iterator it = players.entrySet().iterator();
+					int count = players.size();
+					int total = 0;
+					while (it.hasNext())
+					{
+						Entry<String, PvPointsPlayer> lol = (Entry<String, PvPointsPlayer>) it.next();
+						total += lol.getValue().points;
+					}
+					total = total/count;
+					return total;
+				}
+			});
+			
 			metrics.start();
 		} catch (IOException e) {
 			getServer().getLogger().log(Level.SEVERE, "Unable to send statistics :(");
