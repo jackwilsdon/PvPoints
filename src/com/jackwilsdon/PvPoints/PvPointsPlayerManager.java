@@ -238,6 +238,17 @@ public class PvPointsPlayerManager {
 	}
 	
 	/*
+	 * subtractPoints()
+	 * Remove points from a player
+	 */
+	public static void subtractPoints(String username, int rm)
+	{
+		int points = getPoints(username);
+		points -= rm;
+		plugin.getConfig().set("Players."+username+".points", points);
+	}
+	
+	/*
 	 * reset()
 	 * Resets a user's kills and deaths
 	 */
